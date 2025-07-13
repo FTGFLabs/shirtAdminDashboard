@@ -23,7 +23,21 @@ function readSheetData() {
   const range = sheet.getRange("A1:M1"); 
   return range.getValues();
 }
+function updateStudentStatus(studentId, newStatus) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const data = sheet.getDataRange().getValues();
 
+  for (let i = 1; i < data.length; i++) {
+    const rawId = data[i][2]; // Column C = student ID
+    const formattedId = rawId ? Number(rawId).toFixed(0) : '';
+    if (formattedId === studentId) {
+      sheet.getRange(i + 1, 13).setValue(newStatus); // Column M = Status
+      return true;
+    }
+  }
+
+  throw new Error("ไม่พบรหัสนิสิตในชีต");
+}
 // ฟังก์ชันค้นหารหัสนิสิต
 function findStudentData(studentId) {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();

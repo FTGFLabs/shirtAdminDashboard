@@ -196,12 +196,12 @@
           <div class="detail-content" id="detailContent">
             <h2>ข้อมูลนิสิต</h2>
             <div class="student-items" id="studentDetails">
-              <p class="detail-item"><strong>รหัสนิสิต:</strong> ${studentId}</p>
+              <!-- <p class="detail-item"><strong>รหัสนิสิต:</strong> ${studentId}</p>
               <p class="detail-item"><strong>ชื่อ:</strong> ${firstName}</p>
               <p class="detail-item"><strong>สาขา:</strong> ${major}</p>
               <p class="detail-item"><strong>เสื้อไซด์:</strong> ${major} <strong>จำนวน</strong>${total} ตัว</p>
               <p class="detail-item"><strong>หมายเหตุ:</strong> ${major}</p>
-              <p class="detail-item"><strong>เบอร์ติดต่อ:</strong> ${major}</p>
+              <p class="detail-item"><strong>เบอร์ติดต่อ:</strong> ${major}</p> -->
             </div>
           </div>
         </div>
@@ -243,6 +243,7 @@
       const sizeMore5Xl = studentData[9] || '';
       const notice = studentData[10] || '';
       const linkDrive = studentData[11] || "www.google.com";
+      const status = studentData[12];
 
       // สร้าง HTML แสดงผล
       const htmlContent = `
@@ -253,9 +254,21 @@
         <p class="detail-item"><strong>หมายเหตุ:</strong> ${notice}</p>
         <p class="detail-item"><strong>เบอร์ติดต่อ:</strong> ${tel}</p>
         <a href="${linkDrive}">click slip</a>
+        <div class="status-control">
+          <label for="statusSelect"><strong>สถานะ:</strong></label>
+          <select id="statusSelect">
+            <option value="" disabled selected>${status}</option>
+            <option value="รอรับ">รอรับ</option>
+            <option value="รอตรวจสอบ">รอตรวจสอบ</option>
+            <option value="จัดส่งสำเร็จ">จัดส่งสำเร็จ</option>
+          </select>
+          <button onclick="updateStatus('${studentId}')">บันทึกสถานะ</button>
+      </div>
       `;
 
       studentDetailDiv.innerHTML = htmlContent;
+      const select = document.getElementById('statusSelect');
+      if (currentStatus) select.value = currentStatus;
     }
 
     // ฟังก์ชันจัดการ error
@@ -263,6 +276,19 @@
       console.error('Error:', error);
       showMessage('เกิดข้อผิดพลาดในการค้นหา: ' + error.message, 'error');
       document.getElementById('studentDetails').innerHTML = '<p style="color: red;">เกิดข้อผิดพลาดในการค้นหา</p>';
+    }
+    // updateStatus
+    function updateStatus(studentId) {
+      const selectedStatus = document.getElementById('statusSelect').value;
+      if (!selectedStatus) {
+        showToast('กรุณาเลือกสถานะก่อนบันทึก', 'error');
+        return;
+      }
+
+      google.script.run
+        .withSuccessHandler(() => showMessage('อัปเดตสถานะสำเร็จ', 'success'))
+        .withFailureHandler(err => showMessage('เกิดข้อผิดพลาด: ' + err.message, 'error'))
+        .updateStudentStatus(studentId, selectedStatus);
     }
 
     // ฟังก์ชันอ่านข้อมูลพร้อมป้องกันการ reload หน้า
