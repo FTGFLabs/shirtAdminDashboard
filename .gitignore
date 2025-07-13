@@ -1,0 +1,12 @@
+# Node modules
+node_modules/
+
+# Output folder
+dist/
+
+# Clasp local settings
+.clasp.json
+.env
+
+# Logs or temp
+*.log
