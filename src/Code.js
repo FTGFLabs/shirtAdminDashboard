@@ -23,7 +23,9 @@ function readSheetData() {
   const range = sheet.getRange("A1:M1"); 
   return range.getValues();
 }
-function updateStudentStatus(studentId, newStatus) {
+
+// update status จาก dropdown menu
+function updateStudentStatus(studentId, newStatus, problemText) {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   const data = sheet.getDataRange().getValues();
 
@@ -31,6 +33,7 @@ function updateStudentStatus(studentId, newStatus) {
     const rawId = data[i][2]; // Column C = student ID
     const formattedId = rawId ? Number(rawId).toFixed(0) : '';
     if (formattedId === studentId) {
+      sheet.getRange(i + 1, 14).setValue(problemText);
       sheet.getRange(i + 1, 13).setValue(newStatus); // Column M = Status
       return true;
     }
@@ -66,3 +69,19 @@ function findStudentData(studentId) {
   Logger.log('ไม่พบข้อมูลที่ตรงกัน');
   return null;
 }
+// function findStudentData(studentId) {
+//   const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+//   const data = sheet.getDataRange().getValues().slice(1); // ข้ามหัวตาราง
+
+//   const matchedRow = data.find(row => {
+//     const rawId = row[2]; // คอลัมน์ C (index 2)
+//     const formattedId = rawId ? Number(rawId).toFixed(0) : '';
+//     return formattedId === studentId;
+//   });
+
+//   if (matchedRow) {
+//     return matchedRow.map(v => (v !== null && v !== undefined ? v.toString() : ''));
+//   }
+
+//   return null;
+// }

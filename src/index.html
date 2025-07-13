@@ -64,8 +64,10 @@
         .toast.info {
           background-color: #2196F3;
         }
+
+
         .container{
-            width: 900px; /* Adjusted width for dashboard */
+            width: 1200px; /* Adjusted width for dashboard */
             max-width: 95%;
             display: flex; /* Kept for the main dashboard layout */
             flex-direction: column; /* Changed to column to stack nav and warp-container */
@@ -88,6 +90,7 @@
             gap: 25px; /* Space between the left container and the new card group */
             width: 100%; /* Ensure warp-container spans full width */
             flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            height: 80vh;
         }
         .left-container{
             background-color: var(--card-bg-color); /* Adjusted to card-bg-color */
@@ -103,19 +106,20 @@
 
         .right-container { /* New container for the two cards on the right */
             display: flex;
-            background-color: var(--card-bg-color);
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-            flex-direction: column; /* Stack cards vertically */
-            gap: 25px; /* Space between the two cards */
-            width: 500px; /* Fixed width for the right column of cards */
-            min-height: 80vh; /* Maintain overall height */
+            flex-direction: column;
+            height: 100%;
+            flex: 1;
+            gap: 25px;
+            width: 500px;
         }
-        .right-content{
+        .search-card{
+          background-color: var(--card-bg-color);
+          border-radius: 8px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+          flex-direction: column; /* Stack cards vertically */
+          gap: 25px; /* Space between the two cards */
           display: flex;
           flex-direction: column;
-          gap: 10px;
-          margin-top: 20px;
           padding: 20px;
         }
         .search-box{
@@ -125,7 +129,7 @@
         }
         form{
           display: flex;
-          gap: 5px;
+          gap: 10px;
         }
         input[type="text"],
         select {
@@ -144,6 +148,7 @@
             color: var(--placeholder-color);
         }
         .submit-btn{
+          font-size: 18px;
           border-radius: 5px;
           background-color: var(--button-bg-color);
           color: var(--button-text-color);
@@ -151,21 +156,97 @@
           padding: 10px;
         }
 
-        .detail-content{
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          /* align-items: center; */
-          h2{
-            text-align: center;
-          }
+        .info-card{
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            background-color: var(--card-bg-color);
+            flex: 1;
+            padding: 20px;
         }
-        .student-items{
-          margin-top: 5px;
-          font-size: large;
+
+        .detail-content h2 {
+          text-align: center;
+          margin-bottom: 16px;
+          font-size: 20px;
+          color: #333;
+          border-bottom: 2px solid #eee;
+          padding-bottom: 8px;
+        }
+
+        .student-items {
           display: flex;
           flex-direction: column;
-          gap: 5px;
+          gap: 12px;
+        }
+
+        .detail-item {
+          font-size: 18px;
+          color: #444;
+        }
+
+        .detail-item strong {
+          color: #111;
+        }
+
+        .status-control {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .status-control label {
+          font-size: 18px;
+          margin-bottom: 4px;
+          color: #333;
+        }
+
+        .status-control select {
+          padding: 10px;
+          border-radius: 6px;
+          border: 1px solid #ccc;
+          font-size: 15px;
+          background-color: #f9f9f9;
+          appearance: none;
+        }
+
+        .status-control button {
+          padding: 10px;
+          background-color: #007bff;
+          color: white;
+          font-size: 15px;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: background-color 0.2s;
+        }
+
+        .status-control button:hover {
+          background-color: #0056b3;
+        }
+        .problem-textarea {
+          margin-top: 10px;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          width: 100%;
+          min-height: 80px;
+          font-size: 15px;
+          font-family: 'Prompt', sans-serif;
+          background-color: #f9f9f9;
+          resize: vertical;
+          box-sizing: border-box;
+        }
+
+        .slip-btn{
+          text-align: center;
+          text-decoration: none;
+          font-size: 15px;
+          padding: 10px;
+          background-color: #4CAF50;
+          color: white;
+          border-radius: 6px;
+          cursor: pointer;
+          
         }
     </style>
 </head>
@@ -174,7 +255,7 @@
     <div class="container">
     <div class="nav">
       <h1>ADMIN DASHBOARD</h1>
-      <h1>smo, informatics buu</h1>
+      <h1>SMO, Informatics Buu</h1>
     </div>
 
     <div class="warp-container">
@@ -183,28 +264,49 @@
       </div>
 
       <div class="right-container"> 
-        <div class="right-content">
+        <div class="search-card">
           <div class="search-box">
             <h2 class="search-title">ค้นหาด้วยรหัสนิสิต</h2>
-            <!-- ✅ เพิ่ม event ใน form -->
-            <form onsubmit="readData(event)">
-              <input type="text" id="studentIdInput" placeholder="student ID">
+            <form autocomplete="off" onsubmit="readData(event)">
+              <input autocomplete="none" type="text" id="studentIdInput" placeholder="student ID">
               <button class="submit-btn" type="submit">submit</button>
             </form>
           </div>
+        </div>
 
+        <div class="info-card">
           <div class="detail-content" id="detailContent">
             <h2>ข้อมูลนิสิต</h2>
             <div class="student-items" id="studentDetails">
-              <!-- <p class="detail-item"><strong>รหัสนิสิต:</strong> ${studentId}</p>
-              <p class="detail-item"><strong>ชื่อ:</strong> ${firstName}</p>
-              <p class="detail-item"><strong>สาขา:</strong> ${major}</p>
-              <p class="detail-item"><strong>เสื้อไซด์:</strong> ${major} <strong>จำนวน</strong>${total} ตัว</p>
-              <p class="detail-item"><strong>หมายเหตุ:</strong> ${major}</p>
-              <p class="detail-item"><strong>เบอร์ติดต่อ:</strong> ${major}</p> -->
+            <!-- <p class="detail-item"><strong>รหัสนิสิต:</strong> ${studentId}</p>
+            <p class="detail-item"><strong>ชื่อ:</strong> ${firstName}</p>
+            <p class="detail-item"><strong>สาขา:</strong> ${major}</p>
+            <p class="detail-item"><strong>เสื้อไซด์:</strong> ${size} <strong>จำนวน </strong> ${total} ตัว</p>
+            <p class="detail-item"><strong>หมายเหตุ:</strong> ${notice}</p>
+            <p class="detail-item"><strong>เบอร์ติดต่อ:</strong> ${tel}</p>
+            <div class="status-control">
+              <label for="statusSelect"><strong>สถานะ:</strong></label>
+              <select id="statusSelect" onchange="handleStatusChange(this)">
+                <option value="" disabled selected>${status}</option>
+                <option value="รอรับ">รอรับ</option>
+                <option value="รอตรวจสอบ">รอตรวจสอบ</option>
+                <option value="จัดส่งสำเร็จ">จัดส่งสำเร็จ</option>
+                <option value="มีปัญหา">มีปัญหา</option>
+                </select>
+                <textarea
+                id="problemText"
+                class="problem-textarea"
+                placeholder="โปรดระบุปัญหาที่พบ"
+                style="display: none;"
+                ></textarea>
+                <button onclick="updateStatus('${studentId}')">บันทึกสถานะ</button>
+                </div>
+            <a target="_blank" class="slip-btn"href="${linkDrive}">กดเพื่อตรวจสอบสลิป</a> -->
+
             </div>
           </div>
         </div>
+
       </div>
     </div>
 
@@ -223,7 +325,6 @@
         toast.classList.remove('show');
       }, duration);
     }
-
     function displayStudentDetails(studentData) {
       const studentDetailDiv = document.getElementById('studentDetails');
       studentDetailDiv.innerHTML = '';
@@ -253,18 +354,25 @@
         <p class="detail-item"><strong>เสื้อไซด์:</strong> ${size} <strong>จำนวน </strong> ${total} ตัว</p>
         <p class="detail-item"><strong>หมายเหตุ:</strong> ${notice}</p>
         <p class="detail-item"><strong>เบอร์ติดต่อ:</strong> ${tel}</p>
-        <a href="${linkDrive}">click slip</a>
         <div class="status-control">
           <label for="statusSelect"><strong>สถานะ:</strong></label>
-          <select id="statusSelect">
+          <select id="statusSelect" onchange="handleStatusChange(this)">
             <option value="" disabled selected>${status}</option>
             <option value="รอรับ">รอรับ</option>
             <option value="รอตรวจสอบ">รอตรวจสอบ</option>
             <option value="จัดส่งสำเร็จ">จัดส่งสำเร็จ</option>
-          </select>
-          <button onclick="updateStatus('${studentId}')">บันทึกสถานะ</button>
-      </div>
-      `;
+            <option value="มีปัญหา">มีปัญหา</option>
+            </select>
+            <textarea
+            id="problemText"
+            class="problem-textarea"
+            placeholder="โปรดระบุปัญหาที่พบ"
+            style="display: none;"
+          ></textarea>
+            <button onclick="updateStatus('${studentId}')">บันทึกสถานะ</button>
+            </div>
+        <a target="_blank" class="slip-btn"href="${linkDrive}">กดเพื่อตรวจสอบสลิป</a>
+      `
 
       studentDetailDiv.innerHTML = htmlContent;
       const select = document.getElementById('statusSelect');
@@ -274,12 +382,22 @@
     // ฟังก์ชันจัดการ error
     function handleError(error) {
       console.error('Error:', error);
-      showMessage('เกิดข้อผิดพลาดในการค้นหา: ' + error.message, 'error');
+      showMessage('card: ' + error.message, 'error');
       document.getElementById('studentDetails').innerHTML = '<p style="color: red;">เกิดข้อผิดพลาดในการค้นหา</p>';
     }
+    //ถ้า status เปลี่ยน เรียกใช้
+    function handleStatusChange(select) {
+    const problemText = document.getElementById('problemText');
+    if (select.value === 'มีปัญหา') {
+      problemText.style.display = 'block';
+    } else {
+      problemText.style.display = 'none';
+    }
+  }
     // updateStatus
     function updateStatus(studentId) {
       const selectedStatus = document.getElementById('statusSelect').value;
+      const problemText = document.getElementById('problemText').value;
       if (!selectedStatus) {
         showToast('กรุณาเลือกสถานะก่อนบันทึก', 'error');
         return;
@@ -288,7 +406,7 @@
       google.script.run
         .withSuccessHandler(() => showMessage('อัปเดตสถานะสำเร็จ', 'success'))
         .withFailureHandler(err => showMessage('เกิดข้อผิดพลาด: ' + err.message, 'error'))
-        .updateStudentStatus(studentId, selectedStatus);
+        .updateStudentStatus(studentId, selectedStatus, problemText);
     }
 
     // ฟังก์ชันอ่านข้อมูลพร้อมป้องกันการ reload หน้า
