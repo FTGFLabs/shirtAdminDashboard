@@ -20,6 +20,9 @@
             padding: 0;
             box-sizing: border-box;
         }
+        h2 {
+          font-size: 20px;
+        }
         body{
             font-family: 'Inter', sans-serif;
             display: flex;
@@ -29,6 +32,37 @@
             padding: 20px;
             background-color: var(--main-bg-color);
             color: var(--text-color);
+        }
+        .toast {
+          visibility: hidden;
+          min-width: 250px;
+          background-color: #333;
+          color: #fff;
+          text-align: center;
+          border-radius: 8px;
+          padding: 12px 24px;
+          position: fixed;
+          z-index: 999;
+          left: 50%;
+          transform: translateX(-50%);
+          font-size: 16px;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+          opacity: 0;
+          transition: opacity 0.5s ease-in-out, bottom 0.5s;
+        }
+        .toast.show {
+          visibility: visible;
+          opacity: 1;
+          top: 30px;
+        }
+        .toast.success {
+          background-color: #4CAF50;
+        }
+        .toast.error {
+          background-color: #f44336;
+        }
+        .toast.info {
+          background-color: #2196F3;
         }
         .container{
             width: 900px; /* Adjusted width for dashboard */
@@ -80,17 +114,14 @@
         .right-content{
           display: flex;
           flex-direction: column;
-          gap: 20px;
+          gap: 10px;
           margin-top: 20px;
-          padding: 10px;
+          padding: 20px;
         }
         .search-box{
           display: flex;
           flex-direction: column;
           gap: 6px;
-        }
-        .search-title{
-          font-size: 18px;
         }
         form{
           display: flex;
@@ -112,14 +143,6 @@
         select option[value=""] {
             color: var(--placeholder-color);
         }
-
-        .detail-content{
-          padding: 10px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          /* align-items: center; */
-        }
         .submit-btn{
           border-radius: 5px;
           background-color: var(--button-bg-color);
@@ -127,8 +150,18 @@
           border: none;
           padding: 10px;
         }
+
+        .detail-content{
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          /* align-items: center; */
+          h2{
+            text-align: center;
+          }
+        }
         .student-items{
-          margin-top: 10px;
+          margin-top: 5px;
           font-size: large;
           display: flex;
           flex-direction: column;
@@ -137,6 +170,7 @@
     </style>
 </head>
 <body>
+  <div id="toast" class="toast"></div>
     <div class="container">
     <div class="nav">
       <h1>ADMIN DASHBOARD</h1>
@@ -159,16 +193,15 @@
             </form>
           </div>
 
-          <div id="messageBox"></div>
           <div class="detail-content" id="detailContent">
-            <h2>ข้อมูล นิสิต</h2>
+            <h2>ข้อมูลนิสิต</h2>
             <div class="student-items" id="studentDetails">
-              <!-- <p class="detail-item"><strong>รหัสนิสิต:</strong> ${studentId}</p>
+              <p class="detail-item"><strong>รหัสนิสิต:</strong> ${studentId}</p>
               <p class="detail-item"><strong>ชื่อ:</strong> ${firstName}</p>
               <p class="detail-item"><strong>สาขา:</strong> ${major}</p>
               <p class="detail-item"><strong>เสื้อไซด์:</strong> ${major} <strong>จำนวน</strong>${total} ตัว</p>
               <p class="detail-item"><strong>หมายเหตุ:</strong> ${major}</p>
-              <p class="detail-item"><strong>เบอร์ติดต่อ:</strong> ${major}</p> -->
+              <p class="detail-item"><strong>เบอร์ติดต่อ:</strong> ${major}</p>
             </div>
           </div>
         </div>
@@ -179,26 +212,16 @@
 
 
 <script>
-    function showMessage(msg, type = 'info') {
-      const messageBox = document.getElementById('messageBox');
-      messageBox.textContent = msg;
-      messageBox.style.display = 'block';
-      
-      if (type === 'error') {
-        messageBox.style.color = 'red';
-        messageBox.style.backgroundColor = '#ffebee';
-      } else if (type === 'success') {
-        messageBox.style.color = 'green';
-        messageBox.style.backgroundColor = '#e8f5e8';
-      } else {
-        messageBox.style.color = 'black';
-        messageBox.style.backgroundColor = '#fff';
-      }
-      
-      // ซ่อนข้อความหลังจาก 3 วินาที
+    function showMessage(message, type = 'info', duration = 3000) {
+      const toast = document.getElementById('toast');
+      toast.className = 'toast ' + type;
+      toast.textContent = message;
+
+      toast.classList.add('show');
+
       setTimeout(() => {
-        messageBox.style.display = 'none';
-      }, 3000);
+        toast.classList.remove('show');
+      }, duration);
     }
 
     function displayStudentDetails(studentData) {
@@ -219,15 +242,17 @@
       const total = studentData[8] || '-'
       const sizeMore5Xl = studentData[9] || '';
       const notice = studentData[10] || '';
+      const linkDrive = studentData[11] || "www.google.com";
 
       // สร้าง HTML แสดงผล
       const htmlContent = `
         <p class="detail-item"><strong>รหัสนิสิต:</strong> ${studentId}</p>
         <p class="detail-item"><strong>ชื่อ:</strong> ${firstName}</p>
         <p class="detail-item"><strong>สาขา:</strong> ${major}</p>
-        <p class="detail-item"><strong>เสื้อไซด์:</strong> ${size} <strong>จำนวน</strong>${total} ตัว</p>
+        <p class="detail-item"><strong>เสื้อไซด์:</strong> ${size} <strong>จำนวน </strong> ${total} ตัว</p>
         <p class="detail-item"><strong>หมายเหตุ:</strong> ${notice}</p>
         <p class="detail-item"><strong>เบอร์ติดต่อ:</strong> ${tel}</p>
+        <a href="${linkDrive}">click slip</a>
       `;
 
       studentDetailDiv.innerHTML = htmlContent;
@@ -263,7 +288,7 @@
           console.log('ได้รับข้อมูล:', data);
           if (data) {
             displayStudentDetails(data);
-            showMessage('พบข้อมูลแล้ว', 'success');
+            showMessage('พบข้อมูลแล้ว', 'success', 5000);
           } else {
             showMessage('ไม่พบข้อมูลสำหรับรหัสนิสิตนี้', 'error');
             document.getElementById('studentDetails').innerHTML = '<p style="color: red;">ไม่พบข้อมูลสำหรับรหัสนิสิตนี้</p>';
