@@ -177,7 +177,7 @@
           padding-bottom: 8px;
         }
 
-        .student-items {
+        .student-items  {
           display: flex;
           flex-direction: column;
           gap: 12px;
@@ -190,6 +190,12 @@
 
         .detail-item strong {
           color: #111;
+        }
+        .student-details{
+          font-size: 18px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
         }
 
         .status-control {
@@ -239,6 +245,18 @@
           background-color: #f9f9f9;
           resize: vertical;
           box-sizing: border-box;
+        }
+
+        .img-container {
+          display: flex;
+          justify-content: center; 
+        }
+
+        .slip-img {
+          width: 70%;
+          height: auto;
+          border-radius: 6px;
+          margin-top: 10px;
         }
 
         .slip-btn{
@@ -469,15 +487,17 @@
             <h2>ข้อมูลนิสิต</h2>
             <div class="student-items" id="studentDetails">
               <!-- <div class="student-card">
-                <p><strong>รหัสนิสิต:</strong> ${studentId}</p>
-                <p><strong>ชื่อ:</strong> ${firstName}</p>
-                <p><strong>สาขา:</strong> ${major}</p>
-                <p><strong>เสื้อไซด์:</strong> ${size} <strong>จำนวน</strong> ${total} ตัว</p>
-                <p><strong>หมายเหตุ:</strong> ${notice}</p>
-                <p><strong>เบอร์ติดต่อ:</strong> ${tel}</p>
-                <div class="status-control">
-                  <label><strong>สถานะ:</strong></label>
-                  <select id="statusSelect_${studentId}_${sheetIndex}"
+                <div class="student-details">
+                  <p><strong>รหัสนิสิต:</strong> ${studentId}</p>
+                  <p><strong>ชื่อ:</strong> ${firstName}</p>
+                  <p><strong>สาขา:</strong> ${major}</p>
+                  <p><strong>เสื้อไซด์:</strong> ${size} <strong>จำนวน</strong> ${total} ตัว</p>
+                  <p><strong>หมายเหตุ:</strong> ${notice}</p>
+                  <p><strong>หมายเหตุเพิ่มเติม:</strong> ${noticeMore}</p>
+                  <p><strong>เบอร์ติดต่อ:</strong> ${tel}</p>
+                  <div class="status-control">
+                    <label><strong>สถานะ:</strong></label>
+                    <select id="statusSelect_${studentId}_${sheetIndex}"
                     onchange="handleStatusChange(this, '${studentId}', '${sheetIndex}')">
                     <option value="" disabled selected>กำลังโหลด...</option>
                     <option value="รอรับ">รอรับ</option>
@@ -487,9 +507,13 @@
                   </select>
                   <label for="problemText_${studentId}_${sheetIndex}" style="display: none;">ระบุปัญหาที่พบ:</label>
                   <textarea id="problemText_${studentId}_${sheetIndex}" class="problem-textarea" placeholder="โปรดระบุปัญหา"
-                    style="display:none;">${problemTextValue}</textarea>
+                  style="display:none;">${problemTextValue}</textarea>
                   <button onclick="updateStatus('${studentId}', '${sheetIndex}')">บันทึกสถานะ</button>
-                  <a class="slip-btn" target="_blank" href="${linkDrive}">กดเพื่อตรวจสอบสลิป</a>
+                  <div class="img-container">
+                    <img class="slip-img"src="https://drive.google.com/thumbnail?id=1v42DgM3X5jTedKSX5gP7_rYBJu9uHfd2&sz=w1000">
+                  </div>
+                    <a class="slip-btn" target="_blank" href="${linkDrive}">กดเพื่อตรวจสอบสลิป</a>
+                  </div>
                 </div>
               </div> -->
             </div>
@@ -546,30 +570,39 @@
       const linkDrive = studentData[11] || "www.google.com";
       const problemTextValue = studentData[14] || '';
       const statusValue = studentData[13] || '';
+      const noticeMore = studentData[12] || '-';
 
       const wrapper = document.createElement("div");
       wrapper.classList.add("student-card");
 
       const htmlContent = `
-        <p><strong>รหัสนิสิต:</strong> ${studentId}</p>
-        <p><strong>ชื่อ:</strong> ${firstName}</p>
-        <p><strong>สาขา:</strong> ${major}</p>
-        <p><strong>เสื้อไซด์:</strong> ${size} <strong>จำนวน</strong> ${total} ตัว</p>
-        <p><strong>หมายเหตุ:</strong> ${notice}</p>
-        <p><strong>เบอร์ติดต่อ:</strong> ${tel}</p>
-        <div class="status-control">
-          <label><strong>สถานะ:</strong></label>
-          <select id="statusSelect_${studentId}_${sheetIndex}" onchange="handleStatusChange(this, '${studentId}', '${sheetIndex}')">
-            <option value="" disabled selected>กำลังโหลด...</option>
-            <option value="รอรับ">รอรับ</option>
-            <option value="รอตรวจสอบ">รอตรวจสอบ</option>
-            <option value="จัดส่งสำเร็จ">จัดส่งสำเร็จ</option>
-            <option value="มีปัญหา">มีปัญหา</option>
-          </select>
-          <label for="problemText_${studentId}_${sheetIndex}" style="display: none;">ระบุปัญหาที่พบ:</label>
-          <textarea id="problemText_${studentId}_${sheetIndex}" class="problem-textarea" placeholder="โปรดระบุปัญหา" style="display:none;">${problemTextValue}</textarea>
-          <button onclick="updateStatus('${studentId}', '${sheetIndex}')">บันทึกสถานะ</button>
-          <a class="slip-btn" target="_blank" href="${linkDrive}">กดเพื่อตรวจสอบสลิป</a>
+        <div class="student-details">
+          <p><strong>รหัสนิสิต:</strong> ${studentId}</p>
+          <p><strong>ชื่อ:</strong> ${firstName}</p>
+          <p><strong>สาขา:</strong> ${major}</p>
+          <p><strong>เสื้อไซด์:</strong> ${size} <strong>จำนวน</strong> ${total} ตัว</p>
+          <p><strong>หมายเหตุ:</strong> ${notice}</p>
+          <p><strong>หมายเหตุเพิ่มเติม:</strong> ${noticeMore}</p>
+          <p><strong>เบอร์ติดต่อ:</strong> ${tel}</p>
+          <div class="status-control">
+            <label><strong>สถานะ:</strong></label>
+            <select id="statusSelect_${studentId}_${sheetIndex}"
+              onchange="handleStatusChange(this, '${studentId}', '${sheetIndex}')">
+              <option value="" disabled selected>กำลังโหลด...</option>
+              <option value="รอรับ">รอรับ</option>
+              <option value="รอตรวจสอบ">รอตรวจสอบ</option>
+              <option value="จัดส่งสำเร็จ">จัดส่งสำเร็จ</option>
+              <option value="มีปัญหา">มีปัญหา</option>
+            </select>
+            <label for="problemText_${studentId}_${sheetIndex}" style="display: none;">ระบุปัญหาที่พบ:</label>
+            <textarea id="problemText_${studentId}_${sheetIndex}" class="problem-textarea" placeholder="โปรดระบุปัญหา"
+              style="display:none;">${problemTextValue}</textarea>
+            <button onclick="updateStatus('${studentId}', '${sheetIndex}')">บันทึกสถานะ</button>
+            <div class="img-container">
+              <img class="slip-img"src="https://drive.google.com/thumbnail?id=1v42DgM3X5jTedKSX5gP7_rYBJu9uHfd2&sz=w1000">
+            </div>
+            <a class="slip-btn" target="_blank" href="${linkDrive}">กดเพื่อตรวจสอบสลิป</a>
+          </div>
         </div>
       `;
 
@@ -813,7 +846,7 @@
       renderStudentList(sorted);
     }
 
-    // Search function for student ID or name
+    // Search function for student ID or name 
     function readData(event) {
       event.preventDefault();
       const input = document.getElementById('studentIdInput').value.trim();
@@ -844,27 +877,23 @@
         const studentDetailDiv = document.getElementById('studentDetails');
         studentDetailDiv.innerHTML = '';
         foundStudents.forEach(studentData => {
-          const rawId = studentData[2];
-          const formattedId = rawId ? Number(rawId).toFixed(0) : '';
-          const foundItems = studentMap.get(formattedId);
-          if (foundItems) {
-            foundItems.forEach(item => {
-              const detailCard = displayStudentDetails(item.data, item.sheetIndex);
-              studentDetailDiv.appendChild(detailCard);
-              google.script.run
+            const sheetIndex = allStudentData.indexOf(studentData) + 2; // หา index สำหรับ sheet
+            const detailCard = displayStudentDetails(studentData, sheetIndex);
+            studentDetailDiv.appendChild(detailCard);
+
+            google.script.run
                 .withSuccessHandler(function (statusData) {
-                  updateStatusInUI(statusData.status, statusData.problem, formattedId, item.sheetIndex);
+                    updateStatusInUI(statusData.status, statusData.problem, studentData[2], sheetIndex);
                 })
                 .withFailureHandler(handleError)
-                .getStatusByStudentId(item.sheetIndex);
-            });
-          }
+                .getStatusByStudentId(sheetIndex);
         });
+
         showMessage(`พบข้อมูล ${foundStudents.length} รายการสำหรับชื่อที่ค้นหา`, "success", 5000);
-      } else {
-        showMessage('ไม่พบข้อมูลที่ค้นหา', 'error');
-        document.getElementById('studentDetails').innerHTML = '<p style="color:red;">ไม่พบข้อมูล</p>';
-      }
+        } else {
+          showMessage('ไม่พบข้อมูลที่ค้นหา', 'error');
+          document.getElementById('studentDetails').innerHTML = '<p style="color:red;">ไม่พบข้อมูล</p>';
+        }
     }
   </script>
 </body>
