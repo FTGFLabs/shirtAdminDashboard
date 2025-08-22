@@ -522,6 +522,7 @@
       }).getAllStudents();
     };
 
+
     function showMessage(message, type = 'info', duration = 3000) {
       const toast = document.getElementById('toast');
       toast.className = 'toast ' + type;
@@ -739,25 +740,42 @@
 
       if (!selectedStatus) {
         renderStudentList(allStudentData);
-        return;
+      } else {
+        const filtered = allStudentData.filter(col => {
+          const status = col[13];
+          return status === selectedStatus;
+        });
+        renderStudentList(filtered);
       }
-
-      const filtered = allStudentData.filter(col => {
-        const status = col[13];
-        return status === selectedStatus;
-      });
-      renderStudentList(filtered);
     }
+
 
     // Reset all filters and show full list
-    function resetFilters() {
-      document.getElementById("sortBy").value = "";
-      document.getElementById("majorFilter").value = "";
-      document.getElementById("statusFilter").value = "";
-      document.getElementById("majorFilterContainer").style.display = "none";
-      document.getElementById("statusFilterContainer").style.display = "none";
+  function resetFilters() {
+    // รีเซ็ตค่า filter
+    document.getElementById("sortBy").value = "";
+    document.getElementById("majorFilter").value = "";
+    document.getElementById("statusFilter").value = "";
+    document.getElementById("majorFilterContainer").style.display = "none";
+    document.getElementById("statusFilterContainer").style.display = "none";
+
+    // โหลดข้อมูลล่าสุดจาก Google Sheet
+    google.script.run.withSuccessHandler(function(data) {
+      allStudentData = data.slice(1); // ตัด header ออก
+      studentMap.clear(); // เคลียร์ map ก่อน
+      data.slice(1).forEach((row, index) => {
+        const rawId = row[2];
+        const formattedId = rawId ? Number(rawId).toFixed(0) : '';
+        const sheetRowIndex = index + 2;
+        if (!studentMap.has(formattedId)) {
+          studentMap.set(formattedId, []);
+        }
+        studentMap.get(formattedId).push({ data: row, sheetIndex: sheetRowIndex });
+      });
       renderStudentList(allStudentData);
-    }
+      showMessage("รีเซ็ตฟิลเตอร์และโหลดข้อมูลล่าสุดเรียบร้อยแล้ว", "success");
+    }).getAllStudents();
+  }
 
     // Show/hide filter options based on sort selection
     function handleSortSelection() {
