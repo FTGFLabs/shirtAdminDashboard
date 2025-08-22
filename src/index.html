@@ -558,6 +558,19 @@
         toast.classList.remove('show');
       }, duration);
     }
+    function getDriveFileId(linkDrive) {
+      if (!linkDrive) return "";
+
+      // ตรวจสอบลิงก์แบบ /d/FILE_ID/
+      let match = linkDrive.match(/\/d\/([a-zA-Z0-9_-]+)/);
+      if (match && match[1]) return match[1];
+
+      // ตรวจสอบลิงก์แบบ ?id=FILE_ID
+      match = linkDrive.match(/id=([a-zA-Z0-9_-]+)/);
+      if (match && match[1]) return match[1];
+
+      return "";
+    }
 
     function displayStudentDetails(studentData, sheetIndex) {
       const studentId = studentData[2] || '-';
@@ -572,6 +585,11 @@
       const statusValue = studentData[13] || '';
       const noticeMore = studentData[12] || '-';
 
+      const fileId = getDriveFileId(linkDrive);
+      const thumbnailHtml = fileId 
+          ? `<img class="slip-img" src="https://drive.google.com/thumbnail?id=${fileId}&sz=w1000" alt="Slip Image">`
+          : `<p>ไม่มีสลิป</p>`;
+
       const wrapper = document.createElement("div");
       wrapper.classList.add("student-card");
 
@@ -584,6 +602,10 @@
           <p><strong>หมายเหตุ:</strong> ${notice}</p>
           <p><strong>หมายเหตุเพิ่มเติม:</strong> ${noticeMore}</p>
           <p><strong>เบอร์ติดต่อ:</strong> ${tel}</p>
+          <div class="img-container">
+              ${thumbnailHtml}
+          </div>
+          <a class="slip-btn" target="_blank" href="${linkDrive}">กดเพื่อตรวจสอบสลิป</a>
           <div class="status-control">
             <label><strong>สถานะ:</strong></label>
             <select id="statusSelect_${studentId}_${sheetIndex}"
@@ -598,10 +620,7 @@
             <textarea id="problemText_${studentId}_${sheetIndex}" class="problem-textarea" placeholder="โปรดระบุปัญหา"
               style="display:none;">${problemTextValue}</textarea>
             <button onclick="updateStatus('${studentId}', '${sheetIndex}')">บันทึกสถานะ</button>
-            <div class="img-container">
-              <img class="slip-img"src="https://drive.google.com/thumbnail?id=1v42DgM3X5jTedKSX5gP7_rYBJu9uHfd2&sz=w1000">
-            </div>
-            <a class="slip-btn" target="_blank" href="${linkDrive}">กดเพื่อตรวจสอบสลิป</a>
+
           </div>
         </div>
       `;
