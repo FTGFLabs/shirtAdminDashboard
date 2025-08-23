@@ -795,37 +795,76 @@
       return '';
     }
 
+    //use filter not update real time
+    // function applyFilters() {
+    //   const selectedYear = document.getElementById("yearFilter").value;
+    //   const selectedMajor = document.getElementById("majorFilter").value;
+    //   const selectedStatus = document.getElementById("statusFilter").value;
+
+    //   let filtered = [...allStudentData];
+
+    //   // กรองตามปี
+    //   if (selectedYear !== "all") {
+    //     filtered = filtered.filter(row => {
+    //       const rawId = row[2] ? row[2].toString() : "";
+    //       return rawId.startsWith(selectedYear);
+    //     });
+    //   }
+
+    //   // กรองตามสาขา
+    //   if (selectedMajor !== "all") {
+    //     filtered = filtered.filter(row => {
+    //       const abbrev = getMajorAbbreviation(row[5]);
+    //       return abbrev === selectedMajor;
+    //     });
+    //   }
+
+    //   // กรองตามสถานะ
+    //   if (selectedStatus !== "all") {
+    //     filtered = filtered.filter(row => (row[13] || "") === selectedStatus);
+    //   }
+
+    //   renderStudentList(filtered);
+    // }
+
+    //update status data real time when filter applied
     function applyFilters() {
       const selectedYear = document.getElementById("yearFilter").value;
       const selectedMajor = document.getElementById("majorFilter").value;
       const selectedStatus = document.getElementById("statusFilter").value;
 
-      let filtered = [...allStudentData];
+      // โหลดข้อมูลล่าสุดจาก Google Sheet ทุกครั้ง
+      google.script.run.withSuccessHandler(function(data) {
+        allStudentData = data.slice(1); // ตัด header ออก
 
-      // กรองตามปี
-      if (selectedYear !== "all") {
-        filtered = filtered.filter(row => {
-          const rawId = row[2] ? row[2].toString() : "";
-          return rawId.startsWith(selectedYear);
-        });
-      }
+        let filtered = [...allStudentData];
 
-      // กรองตามสาขา
-      if (selectedMajor !== "all") {
-        filtered = filtered.filter(row => {
-          const abbrev = getMajorAbbreviation(row[5]);
-          return abbrev === selectedMajor;
-        });
-      }
+        // กรองตามปี
+        if (selectedYear !== "all") {
+          filtered = filtered.filter(row => {
+            const rawId = row[2] ? row[2].toString() : "";
+            return rawId.startsWith(selectedYear);
+          });
+        }
 
-      // กรองตามสถานะ
-      if (selectedStatus !== "all") {
-        filtered = filtered.filter(row => (row[13] || "") === selectedStatus);
-      }
+        // กรองตามสาขา
+        if (selectedMajor !== "all") {
+          filtered = filtered.filter(row => {
+            const abbrev = getMajorAbbreviation(row[5]);
+            return abbrev === selectedMajor;
+          });
+        }
 
-      renderStudentList(filtered);
+        // กรองตามสถานะ
+        if (selectedStatus !== "all") {
+          filtered = filtered.filter(row => (row[13] || "") === selectedStatus);
+        }
+
+        renderStudentList(filtered);
+        showMessage("โหลดข้อมูลล่าสุดเรียบร้อยแล้ว", "success");
+      }).getAllStudents(); // ฟังก์ชันนี้ดึงข้อมูลจาก Sheet
+      showMessage('กำลังฟิลเตอร์ข้อมูลปัจจุบัน', 'info');
     }
-
 
 
     // Reset all filters and show full list
