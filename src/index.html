@@ -432,39 +432,36 @@
 
     <div class="warp-container">
       <div class="left-container">
-        <div class="filter-section" id="filter-section">
-          <div class="filter-main">
-            <label for="sortBy">เรียงตาม:</label>
-            <select class="sort-box"id="sortBy" onchange="handleSortSelection()">
-              <option value="">-- เลือกเกณฑ์ --</option>
-              <option value="status">สถานะ</option>
-              <option value="year">ปี (66, 67, 68)</option>
-              <option value="major">สาขา</option>
-            </select>
-          </div>
+        <div class="filter-section">
+          <label for="yearFilter">ปี:</label>
+          <select class="sort-box" id="yearFilter" onchange="applyFilters()">
+            <option value="all">ทุกชั้นปี</option>
+            <option value="65">65</option>
+            <option value="66">66</option>
+            <option value="67">67</option>
+            <option value="68">68</option>
+          </select>
 
-          <div id="majorFilterContainer">
-            <label for="majorFilter">เลือกสาขาย่อย:</label>
-            <select class="sort-box" id="majorFilter" onchange="filterByMajor()">
-              <option value="">-- เลือกสาขา --</option>
-              <option value="ITDI">เทคโนโลยีสารสนเทศเพื่ออุตสาหกรรมดิจิทัล (ITDI)</option>
-              <option value="SE">วิศวกรรมซอฟต์แวร์ (SE)</option>
-              <option value="CS">วิทยาการคอมพิวเตอร์ (CS)</option>
-              <option value="AAI">ปัญญาประดิษฐ์ประยุกต์และเทคโนโลยีอัจฉริยะ (AAI)</option>
-            </select>
-          </div>
+          <label for="majorFilter">สาขา:</label>
+          <select class="sort-box" id="majorFilter" onchange="applyFilters()">
+            <option value="all">ทุกสาขา</option>
+            <option value="ITDI">ITDI</option>
+            <option value="SE">SE</option>
+            <option value="CS">CS</option>
+            <option value="AAI">AAI</option>
+          </select>
 
-          <div id="statusFilterContainer">
-            <label for="statusFilter">สถานะ:</label>
-            <select class="sort-box" id="statusFilter" onchange="filterByStatus()">
-              <option value="">-- เลือกสถานะ --</option>
-              <option value="รอรับ">รอรับ</option>
-              <option value="จัดส่งสำเร็จ">จัดส่งสำเร็จ</option>
-              <option value="มีปัญหา">มีปัญหา</option>
-              <option value="รอตรวจสอบ">รอตรวจสอบ</option>
-            </select>
-          </div>
+          <label for="statusFilter">สถานะ:</label>
+          <select class="sort-box" id="statusFilter" onchange="applyFilters()">
+            <option value="all">ทุกสถานะ</option>
+            <option value="รอรับ">รอรับ</option>
+            <option value="จัดส่งสำเร็จ">จัดส่งสำเร็จ</option>
+            <option value="มีปัญหา">มีปัญหา</option>
+            <option value="รอตรวจสอบ">รอตรวจสอบ</option>
+          </select>
         </div>
+
+
         <button class="reset-btn" onclick="resetFilters()">รีเซ็ต</button>
         <div class="show-list">
           <div id="leftContainer"></div>
@@ -731,7 +728,13 @@
       const leftContainer = document.getElementById('leftContainer');
       leftContainer.innerHTML = '';
 
-      dataRows.forEach(row => {
+      const sortedData = [...dataRows].sort((a, b) => {
+        const idA = a[2] ? parseInt(a[2], 10) : 0;
+        const idB = b[2] ? parseInt(b[2], 10) : 0;
+        return idA - idB;
+      });
+
+      sortedData.forEach(row => {
         const rawId = row[2];
         const formattedId = rawId ? Number(rawId).toFixed(0) : '';
         const name = row[4] || '-';
@@ -801,15 +804,45 @@
       }
     }
 
+    function applyFilters() {
+      const selectedYear = document.getElementById("yearFilter").value;
+      const selectedMajor = document.getElementById("majorFilter").value;
+      const selectedStatus = document.getElementById("statusFilter").value;
+
+      let filtered = [...allStudentData];
+
+      // กรองตามปี
+      if (selectedYear !== "all") {
+        filtered = filtered.filter(row => {
+          const rawId = row[2] ? row[2].toString() : "";
+          return rawId.startsWith(selectedYear);
+        });
+      }
+
+      // กรองตามสาขา
+      if (selectedMajor !== "all") {
+        filtered = filtered.filter(row => {
+          const abbrev = getMajorAbbreviation(row[5]);
+          return abbrev === selectedMajor;
+        });
+      }
+
+      // กรองตามสถานะ
+      if (selectedStatus !== "all") {
+        filtered = filtered.filter(row => (row[13] || "") === selectedStatus);
+      }
+
+      renderStudentList(filtered);
+    }
+
+
 
     // Reset all filters and show full list
   function resetFilters() {
     // รีเซ็ตค่า filter
-    document.getElementById("sortBy").value = "";
-    document.getElementById("majorFilter").value = "";
-    document.getElementById("statusFilter").value = "";
-    document.getElementById("majorFilterContainer").style.display = "none";
-    document.getElementById("statusFilterContainer").style.display = "none";
+    document.getElementById("yearFilter").value = "all";
+    document.getElementById("majorFilter").value = "all";
+    document.getElementById("statusFilter").value = "all";
 
     // โหลดข้อมูลล่าสุดจาก Google Sheet
     google.script.run.withSuccessHandler(function(data) {
@@ -829,23 +862,6 @@
     }).getAllStudents();
   }
 
-    // Show/hide filter options based on sort selection
-    function handleSortSelection() {
-      const sortBy = document.getElementById("sortBy").value;
-      const majorFilter = document.getElementById("majorFilterContainer");
-      const statusFilter = document.getElementById("statusFilterContainer");
-
-      majorFilter.style.display = "none";
-      statusFilter.style.display = "none";
-
-      if (sortBy === "major") {
-        majorFilter.style.display = "block";
-      } else if (sortBy === "status") {
-        statusFilter.style.display = "block";
-      }
-
-      sortAndRenderStudents();
-    }
 
     // Sort students and render the list
     function sortAndRenderStudents() {
