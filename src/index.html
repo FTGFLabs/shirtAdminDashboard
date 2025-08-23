@@ -440,6 +440,7 @@
           <label for="yearFilter">ปี:</label>
           <select class="sort-box" id="yearFilter" onchange="applyFilters()">
             <option value="all">ทุกชั้นปี</option>
+            <option value="64">64</option>
             <option value="65">65</option>
             <option value="66">66</option>
             <option value="67">67</option>
@@ -661,9 +662,9 @@
             allStudentData[localIndex][13] = selectedStatus;
             allStudentData[localIndex][14] = problemText;
           }
-          showMessage('อัปเดตสถานะสำเร็จ', 'success');
           // Re-render the left container to show the updated status
-          sortAndRenderStudents();
+          applyFilters();
+          showMessage('อัปเดตสถานะสำเร็จ', 'success');
         })
         .withFailureHandler(err => {
           showMessage('เกิดข้อผิดพลาด: ' + err.message, 'error');
