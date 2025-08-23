@@ -562,6 +562,7 @@
         toast.classList.remove('show');
       }, duration);
     }
+
     function getDriveFileId(linkDrive) {
       if (!linkDrive) return "";
 
@@ -770,6 +771,7 @@
         document.getElementById("studentCount").textContent = `แสดงทั้งหมด ${sortedData.length} คน`;
     }
 
+    //filter function
     // Get major abbreviation from full name
     function getMajorAbbreviation(fullMajorName) {
       if (!fullMajorName) return '';
@@ -779,38 +781,6 @@
       if (fullMajorName.includes('วิทยาการคอมพิวเตอร์')) return 'CS';
       if (fullMajorName.includes('ปัญญาประดิษฐ์')) return 'AAI';
       return '';
-    }
-
-    // Filter students by major
-    function filterByMajor() {
-      const selectedMajor = document.getElementById("majorFilter").value;
-
-      if (!selectedMajor) {
-        renderStudentList(allStudentData);
-        return;
-      }
-
-      const filtered = allStudentData.filter(col => {
-        const abbrev = getMajorAbbreviation(col[5]);
-        return abbrev === selectedMajor;
-      });
-
-      renderStudentList(filtered);
-    }
-
-    // Filter students by status
-    function filterByStatus() {
-      const selectedStatus = document.getElementById("statusFilter").value;
-
-      if (!selectedStatus) {
-        renderStudentList(allStudentData);
-      } else {
-        const filtered = allStudentData.filter(col => {
-          const status = col[13];
-          return status === selectedStatus;
-        });
-        renderStudentList(filtered);
-      }
     }
 
     function applyFilters() {
@@ -847,47 +817,28 @@
 
 
     // Reset all filters and show full list
-  function resetFilters() {
-    // รีเซ็ตค่า filter
-    document.getElementById("yearFilter").value = "all";
-    document.getElementById("majorFilter").value = "all";
-    document.getElementById("statusFilter").value = "all";
+    function resetFilters() {
+      // รีเซ็ตค่า filter
+      document.getElementById("yearFilter").value = "all";
+      document.getElementById("majorFilter").value = "all";
+      document.getElementById("statusFilter").value = "all";
 
-    // โหลดข้อมูลล่าสุดจาก Google Sheet
-    google.script.run.withSuccessHandler(function(data) {
-      allStudentData = data.slice(1); // ตัด header ออก
-      studentMap.clear(); // เคลียร์ map ก่อน
-      data.slice(1).forEach((row, index) => {
-        const rawId = row[2];
-        const formattedId = rawId ? Number(rawId).toFixed(0) : '';
-        const sheetRowIndex = index + 2;
-        if (!studentMap.has(formattedId)) {
-          studentMap.set(formattedId, []);
-        }
-        studentMap.get(formattedId).push({ data: row, sheetIndex: sheetRowIndex });
-      });
-      renderStudentList(allStudentData);
-      showMessage("รีเซ็ตฟิลเตอร์และโหลดข้อมูลล่าสุดเรียบร้อยแล้ว", "success");
-    }).getAllStudents();
-  }
-
-
-    // Sort students and render the list
-    function sortAndRenderStudents() {
-      const sortBy = document.getElementById("sortBy").value;
-      let sorted = [...allStudentData];
-
-      if (sortBy === "status") {
-        sorted.sort((a, b) => (a[13] || "").localeCompare(b[13] || ""));
-      } else if (sortBy === "year") {
-        sorted.sort((a, b) => {
-          const yearA = ("" + a[2]).substring(0, 2);
-          const yearB = ("" + b[2]).substring(0, 2);
-          return yearA.localeCompare(yearB);
+      // โหลดข้อมูลล่าสุดจาก Google Sheet
+      google.script.run.withSuccessHandler(function(data) {
+        allStudentData = data.slice(1); // ตัด header ออก
+        studentMap.clear(); // เคลียร์ map ก่อน
+        data.slice(1).forEach((row, index) => {
+          const rawId = row[2];
+          const formattedId = rawId ? Number(rawId).toFixed(0) : '';
+          const sheetRowIndex = index + 2;
+          if (!studentMap.has(formattedId)) {
+            studentMap.set(formattedId, []);
+          }
+          studentMap.get(formattedId).push({ data: row, sheetIndex: sheetRowIndex });
         });
-      }
-
-      renderStudentList(sorted);
+        renderStudentList(allStudentData);
+        showMessage("รีเซ็ตฟิลเตอร์และโหลดข้อมูลล่าสุดเรียบร้อยแล้ว", "success");
+      }).getAllStudents();
     }
 
     // Search function for student ID or name 
@@ -939,6 +890,7 @@
           document.getElementById('studentDetails').innerHTML = '<p style="color:red;">ไม่พบข้อมูล</p>';
         }
     }
+
   </script>
 </body>
 </html>
