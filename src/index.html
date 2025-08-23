@@ -64,8 +64,10 @@
         .toast.info {
           background-color: #2196F3;
         }
+
+
         .container{
-            width: 900px; /* Adjusted width for dashboard */
+            width: 1200px; /* Adjusted width for dashboard */
             max-width: 95%;
             display: flex; /* Kept for the main dashboard layout */
             flex-direction: column; /* Changed to column to stack nav and warp-container */
@@ -88,34 +90,28 @@
             gap: 25px; /* Space between the left container and the new card group */
             width: 100%; /* Ensure warp-container spans full width */
             flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            height: 80vh;
         }
-        .left-container{
-            background-color: var(--card-bg-color); /* Adjusted to card-bg-color */
-            padding: 25px; /* Adjusted padding */
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Stronger shadow */
-            flex: 1; /* Allow left container to take available space */
-            min-height: 400px; /* Minimum height for consistency */
-            display: flex; /* For centering content if needed */
-            justify-content: center;
-            align-items: center;
-        }
+      
 
         .right-container { /* New container for the two cards on the right */
             display: flex;
-            background-color: var(--card-bg-color);
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-            flex-direction: column; /* Stack cards vertically */
-            gap: 25px; /* Space between the two cards */
-            width: 500px; /* Fixed width for the right column of cards */
-            min-height: 80vh; /* Maintain overall height */
+            flex-direction: column;
+            height: 100%;
+            flex: 1;
+            gap: 25px;
+            width: 500px;
         }
-        .right-content{
+
+        /* search */
+        .search-card{
+          background-color: var(--card-bg-color);
+          border-radius: 8px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+          flex-direction: column; /* Stack cards vertically */
+          gap: 25px; /* Space between the two cards */
           display: flex;
           flex-direction: column;
-          gap: 10px;
-          margin-top: 20px;
           padding: 20px;
         }
         .search-box{
@@ -123,9 +119,10 @@
           flex-direction: column;
           gap: 6px;
         }
+
         form{
           display: flex;
-          gap: 5px;
+          gap: 10px;
         }
         input[type="text"],
         select {
@@ -144,6 +141,7 @@
             color: var(--placeholder-color);
         }
         .submit-btn{
+          font-size: 18px;
           border-radius: 5px;
           background-color: var(--button-bg-color);
           color: var(--button-text-color);
@@ -151,21 +149,276 @@
           padding: 10px;
         }
 
-        .detail-content{
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          /* align-items: center; */
-          h2{
-            text-align: center;
-          }
+        /* info card */
+        .info-card{
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            background-color: var(--card-bg-color);
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            height: 80vh;
+            align-items: stretch;
         }
-        .student-items{
-          margin-top: 5px;
-          font-size: large;
+        .info-card::-webkit-scrollbar {
+          width: 8px;
+        }
+        .info-card::-webkit-scrollbar-thumb {
+          background-color: rgba(0, 0, 0, 0.2);
+          border-radius: 4px;
+        }
+
+        .detail-content h2 {
+          text-align: center;
+          margin-bottom: 16px;
+          font-size: 20px;
+          color: #333;
+          border-bottom: 2px solid #eee;
+          padding-bottom: 8px;
+        }
+
+        .student-items  {
           display: flex;
           flex-direction: column;
-          gap: 5px;
+          gap: 12px;
+        }
+
+        .detail-item {
+          font-size: 18px;
+          color: #444;
+        }
+
+        .detail-item strong {
+          color: #111;
+        }
+        .student-details{
+          font-size: 18px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .status-control {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .status-control label {
+          font-size: 18px;
+          margin-bottom: 4px;
+          color: #333;
+        }
+
+        .status-control select {
+          padding: 10px;
+          border-radius: 6px;
+          border: 1px solid #ccc;
+          font-size: 15px;
+          background-color: #f9f9f9;
+          appearance: none;
+        }
+
+        .status-control button {
+          padding: 10px;
+          background-color: #007bff;
+          color: white;
+          font-size: 15px;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: background-color 0.2s;
+        }
+
+        .status-control button:hover {
+          background-color: #0056b3;
+        }
+        .problem-textarea {
+          margin-top: 10px;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          width: 100%;
+          min-height: 80px;
+          font-size: 15px;
+          font-family: 'Prompt', sans-serif;
+          background-color: #f9f9f9;
+          resize: vertical;
+          box-sizing: border-box;
+        }
+
+        .img-container {
+          display: flex;
+          justify-content: center; 
+        }
+
+        .slip-img {
+          width: 70%;
+          height: auto;
+          border-radius: 6px;
+          margin-top: 10px;
+        }
+
+        .slip-btn{
+          text-align: center;
+          text-decoration: none;
+          font-size: 15px;
+          padding: 10px;
+          background-color: #4CAF50;
+          color: white;
+          border-radius: 6px;
+          cursor: pointer;
+          
+        }
+
+        /* left container */
+        .left-container {
+          background-color: var(--card-bg-color);
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          height: 80vh;
+          gap: 10px;
+        }
+
+      .show-list {
+          overflow-y: auto;   /* สร้าง scroll แนวตั้งเมื่อเนื้อหายาว */
+          min-height: 0;      /* ป้องกัน flexbox ขยายเกิน */
+        }
+
+        .show-list::-webkit-scrollbar {
+          width: 8px;
+        }
+        .show-list::-webkit-scrollbar-thumb {
+          background-color: rgba(0, 0, 0, 0.2);
+          border-radius: 4px;
+        }
+
+        .student-list-item {
+          border: 1px solid #ddd;
+          padding: 8px;
+          margin-bottom: 8px;
+          background-color: #fff;
+          border-radius: 6px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .filter-section {
+          margin-bottom: 12px;
+        }
+        .student-list-item:hover {
+          background-color: #f0f0f0;
+        }
+
+        .student-list-item button {
+          font-size: 14px;
+          padding: 6px 12px;
+          border-radius: 4px;
+          background-color: #007bff;
+          color: white;
+          border: none;
+          cursor: pointer;
+        }
+
+        .student-list-item button:hover {
+          background-color: #0056b3;
+        }
+
+
+        /* filter */
+        .filter-section{
+          display: flex;
+          flex-direction: column;
+          gap: 12px; 
+        }
+
+        .filter-section label {
+          font-weight: 600;
+          color: var(--text-color);
+          margin-bottom: 4px;
+        }
+
+        .sort-box {
+          padding: 8px 12px;
+          border: 1px solid var(--input-border-color);
+          border-radius: 8px;
+          background-color: var(--input-bg-color);
+          font-size: 14px;
+          width: 100%;
+          max-width: 100%;
+          transition: border-color 0.3s;
+        }
+
+        .sort-box:focus {
+          outline: none;
+          border-color: #007BFF;
+        }
+
+        
+        #majorFilterContainer, #statusFilterContainer {
+          display: none;
+        }
+        .reset-btn{
+          padding: 10px;
+          background-color: #007BFF;
+          border-radius: 5px;
+          color: #fff;
+          border: none;
+          font-size: 14px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+        }
+
+        button:hover {
+          background-color: #0056b3;
+        }
+        .student-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .student-card h3 {
+            margin-bottom: 10px;
+        }
+        @media (max-width: 780px) {
+            .container {
+                width: 100%;
+                padding: 10px;
+            }
+            .warp-container {
+                flex-direction: column;
+                height: auto;
+            }
+            .left-container, .right-container {
+                width: 100%;
+                flex: none;
+                overflow-y: auto;
+            }
+            .info-card {
+                height: auto;
+            }
+            .nav {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .nav h1 {
+                font-size: 20px;
+            }
+            .search-card form {
+                flex-direction: column;
+            }
+            .submit-btn {
+                width: 100%;
+            }
+
         }
     </style>
 </head>
@@ -174,44 +427,126 @@
     <div class="container">
     <div class="nav">
       <h1>ADMIN DASHBOARD</h1>
-      <h1>smo, informatics buu</h1>
+      <h1>SMO, Informatics Buu</h1>
     </div>
 
     <div class="warp-container">
       <div class="left-container">
-        <p>left container</p>
+        <div class="filter-section" id="filter-section">
+          <div class="filter-main">
+            <label for="sortBy">เรียงตาม:</label>
+            <select class="sort-box"id="sortBy" onchange="handleSortSelection()">
+              <option value="">-- เลือกเกณฑ์ --</option>
+              <option value="status">สถานะ</option>
+              <option value="year">ปี (66, 67, 68)</option>
+              <option value="major">สาขา</option>
+            </select>
+          </div>
+
+          <div id="majorFilterContainer">
+            <label for="majorFilter">เลือกสาขาย่อย:</label>
+            <select class="sort-box" id="majorFilter" onchange="filterByMajor()">
+              <option value="">-- เลือกสาขา --</option>
+              <option value="ITDI">เทคโนโลยีสารสนเทศเพื่ออุตสาหกรรมดิจิทัล (ITDI)</option>
+              <option value="SE">วิศวกรรมซอฟต์แวร์ (SE)</option>
+              <option value="CS">วิทยาการคอมพิวเตอร์ (CS)</option>
+              <option value="AAI">ปัญญาประดิษฐ์ประยุกต์และเทคโนโลยีอัจฉริยะ (AAI)</option>
+            </select>
+          </div>
+
+          <div id="statusFilterContainer">
+            <label for="statusFilter">สถานะ:</label>
+            <select class="sort-box" id="statusFilter" onchange="filterByStatus()">
+              <option value="">-- เลือกสถานะ --</option>
+              <option value="รอรับ">รอรับ</option>
+              <option value="จัดส่งสำเร็จ">จัดส่งสำเร็จ</option>
+              <option value="มีปัญหา">มีปัญหา</option>
+              <option value="รอตรวจสอบ">รอตรวจสอบ</option>
+            </select>
+          </div>
+        </div>
+        <button class="reset-btn" onclick="resetFilters()">รีเซ็ต</button>
+        <div class="show-list">
+          <div id="leftContainer"></div>
+        </div>
       </div>
 
       <div class="right-container"> 
-        <div class="right-content">
+        <div class="search-card">
           <div class="search-box">
-            <h2 class="search-title">ค้นหาด้วยรหัสนิสิต</h2>
-            <!-- ✅ เพิ่ม event ใน form -->
-            <form onsubmit="readData(event)">
-              <input type="text" id="studentIdInput" placeholder="student ID">
-              <button class="submit-btn" type="submit">submit</button>
+            <h2 class="search-title">ค้นหาด้วยรหัสนิสิตหรือชื่อ</h2>
+            <form autocomplete="off" onsubmit="readData(event)">
+              <input autocomplete="none" type="text" id="studentIdInput" placeholder="รหัสนิสิตหรือชื่อ">
+              <button class="submit-btn" type="submit">ค้นหา</button>
             </form>
           </div>
+        </div>
 
+        <div class="info-card">
           <div class="detail-content" id="detailContent">
             <h2>ข้อมูลนิสิต</h2>
             <div class="student-items" id="studentDetails">
-              <!-- <p class="detail-item"><strong>รหัสนิสิต:</strong> ${studentId}</p>
-              <p class="detail-item"><strong>ชื่อ:</strong> ${firstName}</p>
-              <p class="detail-item"><strong>สาขา:</strong> ${major}</p>
-              <p class="detail-item"><strong>เสื้อไซด์:</strong> ${major} <strong>จำนวน</strong>${total} ตัว</p>
-              <p class="detail-item"><strong>หมายเหตุ:</strong> ${major}</p>
-              <p class="detail-item"><strong>เบอร์ติดต่อ:</strong> ${major}</p> -->
+              <!-- <div class="student-card">
+                <div class="student-details">
+                  <p><strong>รหัสนิสิต:</strong> ${studentId}</p>
+                  <p><strong>ชื่อ:</strong> ${firstName}</p>
+                  <p><strong>สาขา:</strong> ${major}</p>
+                  <p><strong>เสื้อไซด์:</strong> ${size} <strong>จำนวน</strong> ${total} ตัว</p>
+                  <p><strong>หมายเหตุ:</strong> ${notice}</p>
+                  <p><strong>หมายเหตุเพิ่มเติม:</strong> ${noticeMore}</p>
+                  <p><strong>เบอร์ติดต่อ:</strong> ${tel}</p>
+                  <div class="status-control">
+                    <label><strong>สถานะ:</strong></label>
+                    <select id="statusSelect_${studentId}_${sheetIndex}"
+                    onchange="handleStatusChange(this, '${studentId}', '${sheetIndex}')">
+                    <option value="" disabled selected>กำลังโหลด...</option>
+                    <option value="รอรับ">รอรับ</option>
+                    <option value="รอตรวจสอบ">รอตรวจสอบ</option>
+                    <option value="จัดส่งสำเร็จ">จัดส่งสำเร็จ</option>
+                    <option value="มีปัญหา">มีปัญหา</option>
+                  </select>
+                  <label for="problemText_${studentId}_${sheetIndex}" style="display: none;">ระบุปัญหาที่พบ:</label>
+                  <textarea id="problemText_${studentId}_${sheetIndex}" class="problem-textarea" placeholder="โปรดระบุปัญหา"
+                  style="display:none;">${problemTextValue}</textarea>
+                  <button onclick="updateStatus('${studentId}', '${sheetIndex}')">บันทึกสถานะ</button>
+                  <div class="img-container">
+                    <img class="slip-img"src="https://drive.google.com/thumbnail?id=1v42DgM3X5jTedKSX5gP7_rYBJu9uHfd2&sz=w1000">
+                  </div>
+                    <a class="slip-btn" target="_blank" href="${linkDrive}">กดเพื่อตรวจสอบสลิป</a>
+                  </div>
+                </div>
+              </div> -->
             </div>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 
-
 <script>
+
+    let allStudentData = [];
+    let studentMap = new Map();
+
+    // Load data when the page opens
+    window.onload = function () {
+      google.script.run.withSuccessHandler(function (data) {
+        allStudentData = data.slice(1);
+        data.slice(1).forEach((row, index) => {
+          const rawId = row[2];
+          const formattedId = rawId ? Number(rawId).toFixed(0) : '';
+          const sheetRowIndex = index + 2;
+          if (!studentMap.has(formattedId)) {
+            studentMap.set(formattedId, []);
+          }
+          studentMap.get(formattedId).push({ data: row, sheetIndex: sheetRowIndex });
+        });
+        renderStudentList(allStudentData);
+        showMessage("โหลดข้อมูลทั้งหมดเรียบร้อยแล้ว", "success");
+      }).getAllStudents();
+    };
+
+
     function showMessage(message, type = 'info', duration = 3000) {
       const toast = document.getElementById('toast');
       toast.className = 'toast ' + type;
@@ -223,115 +558,362 @@
         toast.classList.remove('show');
       }, duration);
     }
+    function getDriveFileId(linkDrive) {
+      if (!linkDrive) return "";
 
-    function displayStudentDetails(studentData) {
-      const studentDetailDiv = document.getElementById('studentDetails');
-      studentDetailDiv.innerHTML = '';
+      // ตรวจสอบลิงก์แบบ /d/FILE_ID/
+      let match = linkDrive.match(/\/d\/([a-zA-Z0-9_-]+)/);
+      if (match && match[1]) return match[1];
 
-      if (!studentData) {
-        studentDetailDiv.innerHTML = '<p style="color: red;">ไม่พบข้อมูลสำหรับรหัสนิสิตนี้</p>';
-        return;
-      }
+      // ตรวจสอบลิงก์แบบ ?id=FILE_ID
+      match = linkDrive.match(/id=([a-zA-Z0-9_-]+)/);
+      if (match && match[1]) return match[1];
 
-      // ระบุแสดงคอลัมน์ตาม index โดยตรง
+      return "";
+    }
+
+    function displayStudentDetails(studentData, sheetIndex) {
       const studentId = studentData[2] || '-';
       const firstName = studentData[4] || '-';
       const major = studentData[5] || '-';
       const tel = studentData[6] || '-';
       const size = studentData[7] || '-';
-      const total = studentData[8] || '-'
-      const sizeMore5Xl = studentData[9] || '';
+      const total = studentData[8] || '-';
       const notice = studentData[10] || '';
       const linkDrive = studentData[11] || "www.google.com";
-      const status = studentData[12];
+      const problemTextValue = studentData[14] || '';
+      const statusValue = studentData[13] || '';
+      const noticeMore = studentData[12] || '-';
 
-      // สร้าง HTML แสดงผล
+      const fileId = getDriveFileId(linkDrive);
+      const thumbnailHtml = fileId 
+          ? `<img class="slip-img" src="https://drive.google.com/thumbnail?id=${fileId}&sz=w1000" alt="Slip Image">`
+          : `<p>ไม่มีสลิป</p>`;
+
+      const wrapper = document.createElement("div");
+      wrapper.classList.add("student-card");
+
       const htmlContent = `
-        <p class="detail-item"><strong>รหัสนิสิต:</strong> ${studentId}</p>
-        <p class="detail-item"><strong>ชื่อ:</strong> ${firstName}</p>
-        <p class="detail-item"><strong>สาขา:</strong> ${major}</p>
-        <p class="detail-item"><strong>เสื้อไซด์:</strong> ${size} <strong>จำนวน </strong> ${total} ตัว</p>
-        <p class="detail-item"><strong>หมายเหตุ:</strong> ${notice}</p>
-        <p class="detail-item"><strong>เบอร์ติดต่อ:</strong> ${tel}</p>
-        <a href="${linkDrive}">click slip</a>
-        <div class="status-control">
-          <label for="statusSelect"><strong>สถานะ:</strong></label>
-          <select id="statusSelect">
-            <option value="" disabled selected>${status}</option>
-            <option value="รอรับ">รอรับ</option>
-            <option value="รอตรวจสอบ">รอตรวจสอบ</option>
-            <option value="จัดส่งสำเร็จ">จัดส่งสำเร็จ</option>
-          </select>
-          <button onclick="updateStatus('${studentId}')">บันทึกสถานะ</button>
-      </div>
+        <div class="student-details">
+          <p><strong>รหัสนิสิต:</strong> ${studentId}</p>
+          <p><strong>ชื่อ:</strong> ${firstName}</p>
+          <p><strong>สาขา:</strong> ${major}</p>
+          <p><strong>เสื้อไซด์:</strong> ${size} <strong>จำนวน</strong> ${total} ตัว</p>
+          <p><strong>หมายเหตุ:</strong> ${notice}</p>
+          <p><strong>หมายเหตุเพิ่มเติม:</strong> ${noticeMore}</p>
+          <p><strong>เบอร์ติดต่อ:</strong> ${tel}</p>
+          <div class="img-container">
+              ${thumbnailHtml}
+          </div>
+          <a class="slip-btn" target="_blank" href="${linkDrive}">กดเพื่อตรวจสอบสลิป</a>
+          <div class="status-control">
+            <label><strong>สถานะ:</strong></label>
+            <select id="statusSelect_${studentId}_${sheetIndex}"
+              onchange="handleStatusChange(this, '${studentId}', '${sheetIndex}')">
+              <option value="" disabled selected>กำลังโหลด...</option>
+              <option value="รอรับ">รอรับ</option>
+              <option value="รอตรวจสอบ">รอตรวจสอบ</option>
+              <option value="จัดส่งสำเร็จ">จัดส่งสำเร็จ</option>
+              <option value="มีปัญหา">มีปัญหา</option>
+            </select>
+            <label for="problemText_${studentId}_${sheetIndex}" style="display: none;">ระบุปัญหาที่พบ:</label>
+            <textarea id="problemText_${studentId}_${sheetIndex}" class="problem-textarea" placeholder="โปรดระบุปัญหา"
+              style="display:none;">${problemTextValue}</textarea>
+            <button onclick="updateStatus('${studentId}', '${sheetIndex}')">บันทึกสถานะ</button>
+
+          </div>
+        </div>
       `;
 
-      studentDetailDiv.innerHTML = htmlContent;
-      const select = document.getElementById('statusSelect');
-      if (currentStatus) select.value = currentStatus;
+      wrapper.innerHTML = htmlContent;
+      return wrapper;
     }
 
-    // ฟังก์ชันจัดการ error
+    // Function to handle errors
     function handleError(error) {
       console.error('Error:', error);
-      showMessage('เกิดข้อผิดพลาดในการค้นหา: ' + error.message, 'error');
+      showMessage('card: ' + error.message, 'error');
       document.getElementById('studentDetails').innerHTML = '<p style="color: red;">เกิดข้อผิดพลาดในการค้นหา</p>';
     }
-    // updateStatus
-    function updateStatus(studentId) {
-      const selectedStatus = document.getElementById('statusSelect').value;
+
+    // Update status in Google Sheet and UI
+    function updateStatus(studentId, sheetIndex) {
+      const selectedStatus = document.getElementById(`statusSelect_${studentId}_${sheetIndex}`).value;
+      const problemText = document.getElementById(`problemText_${studentId}_${sheetIndex}`).value;
+
       if (!selectedStatus) {
-        showToast('กรุณาเลือกสถานะก่อนบันทึก', 'error');
+        showMessage('กรุณาเลือกสถานะก่อนบันทึก', 'error');
         return;
       }
 
+      showMessage('กำลังอัปเดตสถานะ...', 'info');
+
       google.script.run
-        .withSuccessHandler(() => showMessage('อัปเดตสถานะสำเร็จ', 'success'))
-        .withFailureHandler(err => showMessage('เกิดข้อผิดพลาด: ' + err.message, 'error'))
-        .updateStudentStatus(studentId, selectedStatus);
+        .withSuccessHandler(() => {
+          // Update the local data array
+          const localIndex = sheetIndex - 2; // Convert sheet row index to 0-based array index
+          if (localIndex >= 0 && localIndex < allStudentData.length) {
+            allStudentData[localIndex][13] = selectedStatus;
+            allStudentData[localIndex][14] = problemText;
+          }
+          showMessage('อัปเดตสถานะสำเร็จ', 'success');
+          // Re-render the left container to show the updated status
+          sortAndRenderStudents();
+        })
+        .withFailureHandler(err => {
+          showMessage('เกิดข้อผิดพลาด: ' + err.message, 'error');
+        })
+        .updateStudentStatus(sheetIndex, selectedStatus, problemText);
     }
 
-    // ฟังก์ชันอ่านข้อมูลพร้อมป้องกันการ reload หน้า
-    function readData(event) {
-      event.preventDefault(); // ป้องกันหน้ารีเฟรช
+    // Show/hide problem textarea based on selected status
+    function handleStatusChange(select, studentId, sheetIndex) {
+      const problemText = document.getElementById(`problemText_${studentId}_${sheetIndex}`);
+      const problemLabel = problemText.previousElementSibling;
+      if (select.value === 'มีปัญหา') {
+        problemText.style.display = 'block';
+        problemLabel.style.display = 'block';
+      } else {
+        problemText.style.display = 'none';
+        problemLabel.style.display = 'none';
+      }
+    }
 
-      const studentIdRaw = document.getElementById('studentIdInput').value.trim();
-      console.log('ส่งค้นหา studentId:', studentIdRaw);
-      
-      if (!studentIdRaw) {
-        showMessage('กรุณาป้อนรหัสนิสิต', 'error');
-        document.getElementById('studentDetails').innerHTML = '<p>กรุณาป้อนรหัสนิสิตเพื่อค้นหา</p>';
+    // Update the UI with status and problem text loaded from sheet
+    function updateStatusInUI(status, problemTextValue, studentId, sheetIndex) {
+      const select = document.getElementById(`statusSelect_${studentId}_${sheetIndex}`);
+      const problemText = document.getElementById(`problemText_${studentId}_${sheetIndex}`);
+      const problemLabel = problemText.previousElementSibling;
+
+      if (!select) return;
+
+      select.value = status || "";
+      problemText.value = problemTextValue || "";
+
+      if (status === "มีปัญหา") {
+        problemText.style.display = "block";
+        problemLabel.style.display = "block";
+      } else {
+        problemText.style.display = "none";
+        problemLabel.style.display = "none";
+      }
+    }
+
+    // Load student data and status by ID
+    function loadStudentById(studentId) {
+      const studentDataArray = studentMap.get(studentId);
+      const studentDetailDiv = document.getElementById('studentDetails');
+      studentDetailDiv.innerHTML = '';
+
+      if (studentDataArray && studentDataArray.length > 0) {
+        studentDataArray.forEach(item => {
+          const studentData = item.data;
+          const sheetIndex = item.sheetIndex;
+          const detailCard = displayStudentDetails(studentData, sheetIndex);
+          studentDetailDiv.appendChild(detailCard);
+
+          google.script.run
+            .withSuccessHandler(function (statusData) {
+              updateStatusInUI(statusData.status, statusData.problem, studentId, sheetIndex);
+            })
+            .withFailureHandler(handleError)
+            .getStatusByStudentId(sheetIndex);
+        });
+
+        showMessage(`พบข้อมูล ${studentDataArray.length} รายการสำหรับรหัสนี้`, "success", 5000);
+      } else {
+        showMessage('ไม่พบข้อมูลสำหรับรหัสนิสิตนี้', 'error');
+      }
+    }
+
+    // Load and render student list
+    function renderStudentList(dataRows) {
+      const leftContainer = document.getElementById('leftContainer');
+      leftContainer.innerHTML = '';
+
+      dataRows.forEach(row => {
+        const rawId = row[2];
+        const formattedId = rawId ? Number(rawId).toFixed(0) : '';
+        const name = row[4] || '-';
+        const status = row[13] || 'รอรับ'; // Assuming column 14 (index 13) is status
+        if (!formattedId) return;
+
+        const studentItem = document.createElement('div');
+        studentItem.classList.add('student-list-item');
+        studentItem.innerHTML = `
+          <div>
+            <strong>${formattedId}</strong><br>
+            <span>${name}</span><br>
+            <small>สถานะ: ${status}</small>
+          </div>
+        `;
+        const button = document.createElement('button');
+        button.textContent = 'ตรวจสอบ';
+        button.addEventListener('click', () => {
+          loadStudentById(formattedId);
+        });
+
+        studentItem.appendChild(button);
+        leftContainer.appendChild(studentItem);
+      });
+    }
+
+    // Get major abbreviation from full name
+    function getMajorAbbreviation(fullMajorName) {
+      if (!fullMajorName) return '';
+      fullMajorName = fullMajorName.trim();
+      if (fullMajorName.includes('เทคโนโลยีสารสนเทศ')) return 'ITDI';
+      if (fullMajorName.includes('ซอฟต์แวร์')) return 'SE';
+      if (fullMajorName.includes('วิทยาการคอมพิวเตอร์')) return 'CS';
+      if (fullMajorName.includes('ปัญญาประดิษฐ์')) return 'AAI';
+      return '';
+    }
+
+    // Filter students by major
+    function filterByMajor() {
+      const selectedMajor = document.getElementById("majorFilter").value;
+
+      if (!selectedMajor) {
+        renderStudentList(allStudentData);
         return;
       }
 
-      const studentId = studentIdRaw.toString(); // แปลงเป็น string แน่ใจ
-      console.log('ค้นหา studentId:', studentId);
-      showMessage('กำลังค้นหารหัสนิสิต...', 'info');
+      const filtered = allStudentData.filter(col => {
+        const abbrev = getMajorAbbreviation(col[5]);
+        return abbrev === selectedMajor;
+      });
 
-      // เรียกใช้ Google Apps Script
-      google.script.run
-        .withSuccessHandler(function(data) {
-          console.log('ได้รับข้อมูล:', data);
-          if (data) {
-            displayStudentDetails(data);
-            showMessage('พบข้อมูลแล้ว', 'success', 5000);
-          } else {
-            showMessage('ไม่พบข้อมูลสำหรับรหัสนิสิตนี้', 'error');
-            document.getElementById('studentDetails').innerHTML = '<p style="color: red;">ไม่พบข้อมูลสำหรับรหัสนิสิตนี้</p>';
-          }
-        })
-        .withFailureHandler(handleError)
-        .findStudentData(studentId);
+      renderStudentList(filtered);
+    }
+
+    // Filter students by status
+    function filterByStatus() {
+      const selectedStatus = document.getElementById("statusFilter").value;
+
+      if (!selectedStatus) {
+        renderStudentList(allStudentData);
+      } else {
+        const filtered = allStudentData.filter(col => {
+          const status = col[13];
+          return status === selectedStatus;
+        });
+        renderStudentList(filtered);
+      }
+    }
+
+
+    // Reset all filters and show full list
+  function resetFilters() {
+    // รีเซ็ตค่า filter
+    document.getElementById("sortBy").value = "";
+    document.getElementById("majorFilter").value = "";
+    document.getElementById("statusFilter").value = "";
+    document.getElementById("majorFilterContainer").style.display = "none";
+    document.getElementById("statusFilterContainer").style.display = "none";
+
+    // โหลดข้อมูลล่าสุดจาก Google Sheet
+    google.script.run.withSuccessHandler(function(data) {
+      allStudentData = data.slice(1); // ตัด header ออก
+      studentMap.clear(); // เคลียร์ map ก่อน
+      data.slice(1).forEach((row, index) => {
+        const rawId = row[2];
+        const formattedId = rawId ? Number(rawId).toFixed(0) : '';
+        const sheetRowIndex = index + 2;
+        if (!studentMap.has(formattedId)) {
+          studentMap.set(formattedId, []);
+        }
+        studentMap.get(formattedId).push({ data: row, sheetIndex: sheetRowIndex });
+      });
+      renderStudentList(allStudentData);
+      showMessage("รีเซ็ตฟิลเตอร์และโหลดข้อมูลล่าสุดเรียบร้อยแล้ว", "success");
+    }).getAllStudents();
+  }
+
+    // Show/hide filter options based on sort selection
+    function handleSortSelection() {
+      const sortBy = document.getElementById("sortBy").value;
+      const majorFilter = document.getElementById("majorFilterContainer");
+      const statusFilter = document.getElementById("statusFilterContainer");
+
+      majorFilter.style.display = "none";
+      statusFilter.style.display = "none";
+
+      if (sortBy === "major") {
+        majorFilter.style.display = "block";
+      } else if (sortBy === "status") {
+        statusFilter.style.display = "block";
+      }
+
+      sortAndRenderStudents();
+    }
+
+    // Sort students and render the list
+    function sortAndRenderStudents() {
+      const sortBy = document.getElementById("sortBy").value;
+      let sorted = [...allStudentData];
+
+      if (sortBy === "status") {
+        sorted.sort((a, b) => (a[13] || "").localeCompare(b[13] || ""));
+      } else if (sortBy === "year") {
+        sorted.sort((a, b) => {
+          const yearA = ("" + a[2]).substring(0, 2);
+          const yearB = ("" + b[2]).substring(0, 2);
+          return yearA.localeCompare(yearB);
+        });
+      }
+
+      renderStudentList(sorted);
+    }
+
+    // Search function for student ID or name 
+    function readData(event) {
+      event.preventDefault();
+      const input = document.getElementById('studentIdInput').value.trim();
+      const keyword = input.toLowerCase();
+
+      if (!keyword) {
+        showMessage('กรุณาป้อนรหัสนิสิตหรือชื่อ', 'error');
+        document.getElementById('studentDetails').innerHTML = '<p>กรุณาป้อนข้อมูลเพื่อค้นหา</p>';
+        return;
+      }
+
+      showMessage('กำลังค้นหา...', 'info');
+
+      // Search by student ID
+      const studentById = studentMap.get(keyword);
+      if (studentById) {
+        loadStudentById(keyword);
+        return;
+      }
+
+      // If not found by ID, search by name
+      const foundStudents = allStudentData.filter(row => {
+        const name = row[4] ? row[4].toLowerCase() : '';
+        return name.includes(keyword);
+      });
+
+      if (foundStudents.length > 0) {
+        const studentDetailDiv = document.getElementById('studentDetails');
+        studentDetailDiv.innerHTML = '';
+        foundStudents.forEach(studentData => {
+            const sheetIndex = allStudentData.indexOf(studentData) + 2; // หา index สำหรับ sheet
+            const detailCard = displayStudentDetails(studentData, sheetIndex);
+            studentDetailDiv.appendChild(detailCard);
+
+            google.script.run
+                .withSuccessHandler(function (statusData) {
+                    updateStatusInUI(statusData.status, statusData.problem, studentData[2], sheetIndex);
+                })
+                .withFailureHandler(handleError)
+                .getStatusByStudentId(sheetIndex);
+        });
+
+        showMessage(`พบข้อมูล ${foundStudents.length} รายการสำหรับชื่อที่ค้นหา`, "success", 5000);
+        } else {
+          showMessage('ไม่พบข้อมูลที่ค้นหา', 'error');
+          document.getElementById('studentDetails').innerHTML = '<p style="color:red;">ไม่พบข้อมูล</p>';
+        }
     }
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
