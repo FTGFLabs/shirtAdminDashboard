@@ -372,6 +372,11 @@
           cursor: pointer;
           transition: background-color 0.3s;
         }
+        .student-count{
+          font-weight: bold;
+          font-size: large;
+          margin-top: 8px;
+        }
 
         button:hover {
           background-color: #0056b3;
@@ -462,6 +467,9 @@
 
 
         <button class="reset-btn" onclick="resetFilters()">รีเซ็ต</button>
+        <div class="student-count" id="studentCount">
+          แสดงทั้งหมด 0 คน
+        </div>
         <div class="show-list">
           <div id="leftContainer"></div>
         </div>
@@ -758,6 +766,8 @@
         studentItem.appendChild(button);
         leftContainer.appendChild(studentItem);
       });
+
+        document.getElementById("studentCount").textContent = `แสดงทั้งหมด ${sortedData.length} คน`;
     }
 
     // Get major abbreviation from full name
