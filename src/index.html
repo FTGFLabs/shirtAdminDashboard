@@ -3,6 +3,7 @@
 <head>
   <base target="_top">
   <title>Simple Sheet Data</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
         :root {
             --main-bg-color: #f5f5f5; /* Light gray background for the body */
@@ -90,7 +91,7 @@
             gap: 25px; /* Space between the left container and the new card group */
             width: 100%; /* Ensure warp-container spans full width */
             flex-wrap: wrap; /* Allow wrapping on smaller screens */
-            height: 80vh;
+            height: 90vh;
         }
       
 
@@ -281,7 +282,7 @@
           display: flex;
           flex-direction: column;
           align-items: stretch;
-          height: 80vh;
+          height: 90vh;
           gap: 10px;
         }
 
@@ -394,7 +395,6 @@
         @media (max-width: 780px) {
             .container {
                 width: 100%;
-                padding: 10px;
             }
             .warp-container {
                 flex-direction: column;
@@ -404,13 +404,14 @@
                 width: 100%;
                 flex: none;
                 overflow-y: auto;
+                height: 500px;
             }
             .info-card {
                 height: auto;
             }
             .nav {
                 flex-direction: column;
-                align-items: flex-start;
+                align-items: center;
                 gap: 10px;
             }
             .nav h1 {
@@ -421,6 +422,15 @@
             }
             .submit-btn {
                 width: 100%;
+            }
+            .filter-section{
+              display: flex;
+              flex-direction: column;
+              align-items: flex-start;
+              gap: 1px;
+            }
+            .student-count{
+              text-align: center;
             }
 
         }
@@ -469,7 +479,7 @@
 
         <button class="reset-btn" onclick="resetFilters()">รีเซ็ต</button>
         <div class="student-count" id="studentCount">
-          แสดงทั้งหมด 0 คน
+          แสดงทั้งหมด 0 รายการ
         </div>
         <div class="show-list">
           <div id="leftContainer"></div>
@@ -769,7 +779,7 @@
         leftContainer.appendChild(studentItem);
       });
 
-        document.getElementById("studentCount").textContent = `แสดงทั้งหมด ${sortedData.length} คน`;
+        document.getElementById("studentCount").textContent = `แสดงทั้งหมด ${sortedData.length} รายการ`;
     }
 
     //filter function

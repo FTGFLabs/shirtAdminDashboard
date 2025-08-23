@@ -6,7 +6,8 @@
 function doGet() {
   return HtmlService.createHtmlOutputFromFile('index')
     .setTitle('Google Sheet Data Reader')
-    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1');
 }
 
 // Get all student data from the sheet
